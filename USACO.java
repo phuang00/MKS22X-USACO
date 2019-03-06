@@ -83,13 +83,26 @@ public class USACO{
     return ans;
   }
 
-  public static int silver(String filename){
+  public static int silver(String filename) throws FileNotFoundException{
+    File f = new File(filename);
+    Scanner in = new Scanner(f);
+    String[] vars = in.nextLine().split(" ");
+    char[][] pasture = new char[Integer.parseInt(vars[0])][Integer.parseInt(vars[1])];
+    int time = Integer.parseInt(vars[2]);
+    for (int i = 0; i < pasture.length; i++){
+      String temp = in.nextLine();
+      for (int j = 0; j < pasture[i].length; j++){
+        pasture[i][j] = temp.charAt(j);
+      }
+      System.out.println(Arrays.toString(pasture[i]));
+    }
     return -1;
   }
 
   public static void main(String[] args) {
     try{
-      System.out.println(bronze("makelake.5.in"));
+      //System.out.println(bronze("makelake.5.in"));
+      silver("ctravel.1.in");
     } catch (FileNotFoundException e){
       e.printStackTrace();
     }
