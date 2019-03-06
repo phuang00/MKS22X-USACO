@@ -98,18 +98,34 @@ public class USACO{
     }
     String[] coords = in.nextLine().split(" ");
     pasture[Integer.parseInt(coords[2]) - 1][Integer.parseInt(coords[3]) - 1] = 'E';
-    return paths(pasture, Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1, time);
+    return paths(pasture, Integer.parseInt(coords[0]) - 1,
+                 Integer.parseInt(coords[1]) - 1,
+                 Integer.parseInt(coords[2]) - 1,
+                 Integer.parseInt(coords[3]) - 1, time);
   }
 
-  private static int paths(char[][] land,int row, int col, int time){
+  private static int paths(char[][] land,int row, int col, int endR, int endC, int time){
+    int ans = 0;
     int[] coords = new int[] {-1,0,1,0,0,1,0,-1};
-    return 0;
+    if (time == 0 && land[row][col] == 'E') return 1;
+    if (time <= 0 || land[row][col] == '*') return 0;
+    if (Math.abs(row - endR) + Math.abs(col - endC) > time) return 0;
+    for (int i = 0; i < 7; i+=2){
+      if (!outOfBounds(row + coords[i], col + coords[i + 1],land)){
+        ans += paths(land, row + coords[i], col + coords[i + 1], endR, endC ,time - 1);
+      }
+    }
+    return ans;
+  }
+
+  private static boolean outOfBounds(int row, int col, char[][] land){
+    return (row < 0 || col < 0 || row >= land.length || col >= land[0].length);
   }
 
   public static void main(String[] args) {
     try{
       //System.out.println(bronze("makelake.5.in"));
-      System.out.println(silver("ctravel.1.in"));
+      System.out.println(silver("ctravel.3.in"));
     } catch (FileNotFoundException e){
       e.printStackTrace();
     }
