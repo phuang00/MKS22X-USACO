@@ -94,15 +94,22 @@ public class USACO{
       for (int j = 0; j < pasture[i].length; j++){
         pasture[i][j] = temp.charAt(j);
       }
-      System.out.println(Arrays.toString(pasture[i]));
+      //System.out.println(Arrays.toString(pasture[i]));
     }
-    return -1;
+    String[] coords = in.nextLine().split(" ");
+    pasture[Integer.parseInt(coords[2]) - 1][Integer.parseInt(coords[3]) - 1] = 'E';
+    return paths(pasture, Integer.parseInt(coords[0]) - 1, Integer.parseInt(coords[1]) - 1, time);
+  }
+
+  private static int paths(char[][] land,int row, int col, int time){
+    int[] coords = new int[] {-1,0,1,0,0,1,0,-1};
+    return 0;
   }
 
   public static void main(String[] args) {
     try{
       //System.out.println(bronze("makelake.5.in"));
-      silver("ctravel.1.in");
+      System.out.println(silver("ctravel.1.in"));
     } catch (FileNotFoundException e){
       e.printStackTrace();
     }
