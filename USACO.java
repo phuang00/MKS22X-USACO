@@ -107,36 +107,52 @@ public class USACO{
     String[] coords = in.nextLine().split(" ");
     // read in the last line and split it based on spaces
     ways[Integer.parseInt(coords[0]) - 1][Integer.parseInt(coords[1]) - 1] = 1;
+    // set the starting spot to 1
     for (int i = 0; i < time; i++){
+      // for the amount of seconds in time
       ways = updateWays(ways);
+      // way calls helper to update assuming another move was added
+
       /*for (int j = 0; j < ways.length; j++){
         System.out.println(Arrays.toString(ways[j]));
       }
       System.out.println();*/
     }
     return ways[Integer.parseInt(coords[2]) -1][Integer.parseInt(coords[3])-1];
+    // return the number at the end spot
   }
 
   public static int[][] updateWays(int[][] oldWays){
     int[][] ways = new int[oldWays.length][oldWays[0].length];
+    // create new board with same dimensions
     int[] coords = new int[] {0, -1, -1, 0, 0, 1, 1, 0};
+    // create array of the coords of the spot to the N, S, E, W.
     for (int i = 0; i < ways.length; i++){
       for (int j = 0; j < ways[i].length; j++){
+        // for every spot on the grid
         if (oldWays[i][j] == -1) ways[i][j] = oldWays[i][j];
+        // if there was a tree in the old board, copy it over to the new board
         else{
+          // else
           int temp = 0;
+          // set the temp value to zero
           for (int x = 0; x < 8; x+=2){
+            // loop through each of the 4 positions (North, South, East, West)
             int newR = i + coords[x];
             int newC = j + coords[x + 1];
             if (!outOfBounds(newR, newC, oldWays)){
+              // if it is not out of bounds
               if (oldWays[newR][newC] != -1) temp += oldWays[newR][newC];
+              // and if it isn't a tree, add it to temp
             }
           }
           ways[i][j] = temp;
+          // set it to the temp value (sum of surrounding values)
         }
       }
     }
     return ways;
+    // return new board
   }
 
   private static boolean outOfBounds(int row, int col, int[][] land){
