@@ -86,17 +86,26 @@ public class USACO{
   public static int silver(String filename) throws FileNotFoundException{
     File f = new File(filename);
     Scanner in = new Scanner(f);
+    // set up scanner
     String[] vars = in.nextLine().split(" ");
+    // read in first line
     int[][] ways = new int[Integer.parseInt(vars[0])][Integer.parseInt(vars[1])];
+    // create 2D int array with dimensions N by M
     int time = Integer.parseInt(vars[2]);
+    // set variable time to T
     for (int i = 0; i < ways.length; i++){
+      // for every row of ways
       String temp = in.nextLine();
+      // set a temporary String to the next line of file
       for (int j = 0; j < ways[i].length; j++){
+        // for every column of ways
         if (temp.charAt(j) == '*') ways[i][j] = -1;
+        // if there is a tree at that position, set the position to -1 in ways
       }
       //System.out.println(Arrays.toString(pasture[i]));
     }
     String[] coords = in.nextLine().split(" ");
+    // read in the last line and split it based on spaces
     ways[Integer.parseInt(coords[0]) - 1][Integer.parseInt(coords[1]) - 1] = 1;
     for (int i = 0; i < time; i++){
       ways = updateWays(ways);
