@@ -87,14 +87,12 @@ public class USACO{
     File f = new File(filename);
     Scanner in = new Scanner(f);
     String[] vars = in.nextLine().split(" ");
-    char[][] pasture = new char[Integer.parseInt(vars[0])][Integer.parseInt(vars[1])];
-    int[][] ways = new int[pasture.length][pasture[0].length];
+    int[][] ways = new int[Integer.parseInt(vars[0])][Integer.parseInt(vars[1])];
     int time = Integer.parseInt(vars[2]);
-    for (int i = 0; i < pasture.length; i++){
+    for (int i = 0; i < ways.length; i++){
       String temp = in.nextLine();
-      for (int j = 0; j < pasture[i].length; j++){
-        pasture[i][j] = temp.charAt(j);
-        if (pasture[i][j] == '*') ways[i][j] = -1;
+      for (int j = 0; j < ways[i].length; j++){
+        if (temp.charAt(j) == '*') ways[i][j] = -1;
       }
       //System.out.println(Arrays.toString(pasture[i]));
     }
@@ -139,7 +137,7 @@ public class USACO{
   public static void main(String[] args) {
     try{
       //System.out.println(bronze("makelake.5.in"));
-      System.out.println(silver("ctravel.5.in"));
+      System.out.println(silver("ctravel.4.in"));
     } catch (FileNotFoundException e){
       e.printStackTrace();
     }
