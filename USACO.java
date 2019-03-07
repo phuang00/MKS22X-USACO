@@ -88,44 +88,58 @@ public class USACO{
     Scanner in = new Scanner(f);
     String[] vars = in.nextLine().split(" ");
     char[][] pasture = new char[Integer.parseInt(vars[0])][Integer.parseInt(vars[1])];
+    int[][] ways = new int[pasture.length][pasture[0].length];
     int time = Integer.parseInt(vars[2]);
     for (int i = 0; i < pasture.length; i++){
       String temp = in.nextLine();
       for (int j = 0; j < pasture[i].length; j++){
         pasture[i][j] = temp.charAt(j);
+        if (pasture[i][j] == '*') ways[i][j] = -1;
       }
       //System.out.println(Arrays.toString(pasture[i]));
     }
     String[] coords = in.nextLine().split(" ");
-    pasture[Integer.parseInt(coords[2]) - 1][Integer.parseInt(coords[3]) - 1] = 'E';
-    return paths(pasture, Integer.parseInt(coords[0]) - 1,
-                 Integer.parseInt(coords[1]) - 1,
-                 Integer.parseInt(coords[2]) - 1,
-                 Integer.parseInt(coords[3]) - 1, time);
+    ways[Integer.parseInt(coords[0]) - 1][Integer.parseInt(coords[1]) - 1] = 1;
+    for (int i = 0; i < time; i++){
+      ways = updateWays(ways);
+      /*for (int j = 0; j < ways.length; j++){
+        System.out.println(Arrays.toString(ways[j]));
+      }
+      System.out.println();*/
+    }
+    return ways[Integer.parseInt(coords[2]) -1][Integer.parseInt(coords[3])-1];
   }
 
-  private static int paths(char[][] land,int row, int col, int endR, int endC, int time){
-    int ans = 0;
-    int[] coords = new int[] {-1,0,1,0,0,1,0,-1};
-    if (time == 0 && land[row][col] == 'E') return 1;
-    if (time <= 0 || land[row][col] == '*') return 0;
-    if (Math.abs(row - endR) + Math.abs(col - endC) > time) return 0;
-    for (int i = 0; i < 7; i+=2){
-      if (!outOfBounds(row + coords[i], col + coords[i + 1],land)){
-        ans += paths(land, row + coords[i], col + coords[i + 1], endR, endC ,time - 1);
+  public static int[][] updateWays(int[][] oldWays){
+    int[][] ways = new int[oldWays.length][oldWays[0].length];
+    int[] coords = new int[] {0, -1, -1, 0, 0, 1, 1, 0};
+    for (int i = 0; i < ways.length; i++){
+      for (int j = 0; j < ways[i].length; j++){
+        if (oldWays[i][j] == -1) ways[i][j] = oldWays[i][j];
+        else{
+          int temp = 0;
+          for (int x = 0; x < 8; x+=2){
+            int newR = i + coords[x];
+            int newC = j + coords[x + 1];
+            if (!outOfBounds(newR, newC, oldWays)){
+              if (oldWays[newR][newC] != -1) temp += oldWays[newR][newC];
+            }
+          }
+          ways[i][j] = temp;
+        }
       }
     }
-    return ans;
+    return ways;
   }
 
-  private static boolean outOfBounds(int row, int col, char[][] land){
+  private static boolean outOfBounds(int row, int col, int[][] land){
     return (row < 0 || col < 0 || row >= land.length || col >= land[0].length);
   }
 
   public static void main(String[] args) {
     try{
       //System.out.println(bronze("makelake.5.in"));
-      System.out.println(silver("ctravel.3.in"));
+      System.out.println(silver("ctravel.5.in"));
     } catch (FileNotFoundException e){
       e.printStackTrace();
     }
